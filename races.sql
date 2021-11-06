@@ -1,5 +1,5 @@
 create table races (
-	id SERIAL,
+	id SERIAL PRIMARY KEY,
 	name VARCHAR(50),
 	location VARCHAR(50),
 	date DATE,

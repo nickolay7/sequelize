@@ -1,5 +1,5 @@
 create table horses (
-	id SERIAL,
+	id SERIAL PRIMARY KEY,
 	name VARCHAR(50),
 	breed VARCHAR(50),
 	created_at DATE,

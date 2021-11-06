@@ -4,7 +4,7 @@ const { QueryTypes } = require('sequelize');
 async function connect() {
   try {
     await sequelize.authenticate();
-    console.log('Конекшен эстеблишд');
+    console.log('Connection established!');
   } catch (error) {
     console.error(error.message);
   }
@@ -13,15 +13,38 @@ async function connect() {
 connect();
 
 const getAll = () => {
-  return sequelize.query("SELECT * FROM employee;");
-}
+  return sequelize.query(
+    'SELECT * FROM employee',
+    { type: QueryTypes.SELECT },
 
-const query = ''
-
-function getHorses (name){
-  return sequelize.query("SELECT * FROM horses",
-  { type: QueryTypes.SELECT },
   );
 }
 
-getHorses().then((d) => console.log(d[0]));
+const query = '';
+
+function getHorses (name){
+  return sequelize.query(
+    'SELECT * FROM horses',
+    { type: QueryTypes.SELECT }, // to return value without meta
+
+  );
+}
+
+// patten for replacement
+// await sequelize.query(
+//   'SELECT * FROM projects WHERE status = ? AND lang = ?;',
+//   {
+//     replacements: ['active', 'js'],
+//     type: QueryTypes.SELECT
+//   }
+//  );
+
+//  await sequelize.query(
+//   'SELECT * FROM projects WHERE status = :status AND lang = :lang;',
+//   {
+//     replacements: { status: 'active', lang: 'js' },
+//     type: QueryTypes.SELECT
+//   }
+//  );
+
+getHorses().then(console.log);

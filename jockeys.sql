@@ -1,5 +1,5 @@
 create table jockeys (
-	id SERIAL,
+	id SERIAL PRIMARY KEY,
 	name VARCHAR(50),
 	created_at DATE,
 	updated_at DATE

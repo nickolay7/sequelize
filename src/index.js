@@ -1,5 +1,5 @@
-const { sequelize } = require('../models');
 const { QueryTypes } = require('sequelize');
+const { sequelize } = require('../models');
 
 async function connect() {
   try {
@@ -10,23 +10,66 @@ async function connect() {
   }
 }
 
-connect();
+connect()
+  .then();
 
-const getAll = () => {
+// В каких гонках лошадь принимала участие?
+const getHorseRaces = [
+  'SELECT races.name FROM horses'
+  + ' JOIN entries ON horses.id = horse_id'
+  + ' JOIN races ON race_id = races.id'
+  + ' WHERE horses.name = ?',
+  'Impala',
+];
+// Какие жокеи участвовали в заезде на этой лошади?
+const getJockeysFromHorse = [
+  'SELECT jockeys.name FROM jockeys'
+  + ' join entries on jockey_id = jockeys.id'
+  + ' join races on race_id = races.id'
+  + ' join horses on horses.id = horse_id'
+  + ' where horses.name = ?',
+  'Impala',
+];
+// В каких гонках участвовал жокей?
+const getJockeyRaces = [
+  'select races.name from races'
+  + ' join entries on races.id = race_id'
+  + ' join jockeys on jockey_id = jockeys.id'
+  + ' where jockeys.name = ?',
+  'Caron Elrick',
+];
+// На каких лошадях ездил жокей?
+const getJockeyHorses = [
+  'select horses.name from horses'
+  + ' join entries on horse_id = horses.id'
+  + ' join jockeys on jockeys.id = jockey_id'
+  + ' where jockeys.name = ?',
+  'Tammie Lorens',
+];
+// Какие жокеи принимали участие в гонке?
+const getJockeysInRace = [
+  'select jockeys.name from jockeys'
+  + ' join entries on jockey_id = jockeys.id'
+  + ' join races on races.id = race_id'
+  + ' where races.name = ?',
+  'race1',
+];
+// Какие лошади принимали участие в гонке?
+const getHorsesFromRace = [
+  'select horses.name from horses'
+  + ' join entries on horse_id = horses.id'
+  + ' join races on races.id = race_id'
+  + ' where races.name = ?',
+  'race1',
+];
+
+function getData([query, arg]) {
   return sequelize.query(
-    'SELECT * FROM employee',
-    { type: QueryTypes.SELECT },
-
-  );
-}
-
-const query = '';
-
-function getHorses (name){
-  return sequelize.query(
-    'SELECT * FROM horses',
-    { type: QueryTypes.SELECT }, // to return value without meta
-
+    query,
+    {
+      type: QueryTypes.SELECT,
+      replacements: [arg],
+    },
   );
 }
 
@@ -47,4 +90,5 @@ function getHorses (name){
 //   }
 //  );
 
-getHorses().then(console.log);
+getData(getJockeyHorses)
+  .then(console.log);
